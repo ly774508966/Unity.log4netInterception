@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.log4netInjection", "Unity.log4netInjection.csproj", "{3C50DC21-764C-4CEA-B041-8956A3FEDFAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.lo4netInterception.Tests", "..\Unity.lo4netInterception.Tests\Unity.lo4netInterception.Tests.csproj", "{629A1873-D8C2-4680-98AC-2808160C9F8F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3C50DC21-764C-4CEA-B041-8956A3FEDFAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C50DC21-764C-4CEA-B041-8956A3FEDFAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C50DC21-764C-4CEA-B041-8956A3FEDFAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C50DC21-764C-4CEA-B041-8956A3FEDFAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{629A1873-D8C2-4680-98AC-2808160C9F8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{629A1873-D8C2-4680-98AC-2808160C9F8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{629A1873-D8C2-4680-98AC-2808160C9F8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{629A1873-D8C2-4680-98AC-2808160C9F8F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
