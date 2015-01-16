@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>Unity.log4netInjection</title>
+    <authors>mtranter</authors>
+    <owners>mtranter</owners>
+    <projectUrl>https://github.com/mtranter/Unity.log4netInterception</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Basic log4net Policy injection framework for Unity</description>
+    <tags>Unity log4net policy injection</tags>
+  </metadata>
+</package>
