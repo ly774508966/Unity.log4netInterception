@@ -2,7 +2,7 @@
  branches:
     only:
       - master
-
+  
   configuration: Release
 
   install:
