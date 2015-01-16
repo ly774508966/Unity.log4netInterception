@@ -35,7 +35,7 @@ namespace Unity.log4netInterception.Tests
 
             LoggingEvent[] events = _myAppender.GetEvents();
             Assert.IsNotNull(
-                events.SingleOrDefault(
+                events.FirstOrDefault(
                     e =>
                     e.MessageObject.ToString() ==
                     String.Format("Returning True from {0}.Drive(Int32 speed = 5)", typeof (TCar))));
