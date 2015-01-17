@@ -72,5 +72,18 @@ namespace Unity.log4netInterception.Tests
             LoggingEvent[] events = _myAppender.GetEvents();
             Assert.IsNotNull(events.SingleOrDefault(e => e.ExceptionObject == ex));
         }
+
+        [TestMethod]
+        public virtual void WriteLogWhenReferenceTypesAreNull()
+        {
+            var car = _container.Resolve<ICar>();
+            car.DoSomethingWithReferenceType(null);
+            Thread.Sleep(100); // Logging is Async
+            LoggingEvent[] events = _myAppender.GetEvents();
+            Assert.IsNotNull(
+                events.SingleOrDefault(
+                    e =>
+                    e.MessageObject.ToString() == String.Format("Calling {0}.DoSomethingWithReferenceType(String s = null)", typeof(TCar))));
+        }
     }
 }

@@ -65,12 +65,12 @@ namespace Unity.log4netInterception
             var sb = new StringBuilder();
             for (int i = 0; i < @params.Count; i++)
             {
-                string argVal = @params[i].ToString();
-                ParameterInfo arg = @params.GetParameterInfo(i);
+                var argVal = @params[i];
+                var arg = @params.GetParameterInfo(i);
                 string argName = arg.Name;
                 string argType = arg.ParameterType.Name;
 
-                sb.AppendFormat("{0} {1} = {2}", argType, argName, argVal);
+                sb.AppendFormat("{0} {1} = {2}", argType, argName, argVal == null ? "null" : argVal.ToString());
                 if (i < @params.Count - 1)
                 {
                     sb.Append(", ");

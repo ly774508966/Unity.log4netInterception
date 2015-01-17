@@ -18,6 +18,12 @@ namespace Unity.log4netInterception.Tests
             throw new NotImplementedException();
         }
 
+        [CustomLog]
+        public void DoSomethingWithReferenceType(string s)
+        {
+            
+        }
+
         public void DontLogMe()
         {
         }
