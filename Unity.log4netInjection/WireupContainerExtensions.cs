@@ -1,4 +1,5 @@
-﻿using Microsoft.Practices.Unity;
+﻿using System.Linq;
+using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.InterceptionExtension;
 
 namespace Unity.log4netInterception
@@ -33,5 +34,61 @@ namespace Unity.log4netInterception
 
             return container;
         }
+
+        public static IUnityContainer RegisterTypeWithLogging<TInterface, TType, TInterceptor>(this IUnityContainer container)
+            where TType : TInterface 
+            where TInterceptor : IInterceptor
+        {
+            container.RegisterType<TInterface, TType>(
+                new InterceptionBehavior<PolicyInjectionBehavior>(),
+                new Interceptor<TInterceptor>());
+
+            return container;
+        }
+
+        public static IUnityContainer RegisterTypeWithLogging<TInterface, TType>(this IUnityContainer container, LifetimeManager lifetimeManager, params InjectionMember[] injectionMembers )
+            where TType : TInterface
+        {
+            injectionMembers =
+                injectionMembers.Union(new InjectionMember[]  {new InterceptionBehavior<PolicyInjectionBehavior>(), new Interceptor<InterfaceInterceptor>()})
+                                .ToArray();
+            container.RegisterType<TInterface, TType>(lifetimeManager, injectionMembers);
+
+            return container;
+        }
+
+        public static IUnityContainer RegisterTypeWithLogging<TInterface, TType, TInterceptor>(this IUnityContainer container, LifetimeManager lifetimeManager, params InjectionMember[] injectionMembers)
+            where TType : TInterface
+            where TInterceptor : IInterceptor
+        {
+            injectionMembers =
+                injectionMembers.Union(new InjectionMember[] { new InterceptionBehavior<PolicyInjectionBehavior>(), new Interceptor<TInterceptor>() })
+                                .ToArray();
+            container.RegisterType<TInterface, TType>(lifetimeManager, injectionMembers);
+
+            return container;
+        }
+
+
+
+        public static IUnityContainer RegisterTypeWithLogging<TType>(this IUnityContainer container)
+        {
+            container.RegisterType<TType>(
+                new InterceptionBehavior<PolicyInjectionBehavior>(),
+                new Interceptor<InterfaceInterceptor>());
+
+            return container;
+        }
+
+        public static IUnityContainer RegisterTypeWithLogging<TType>(this IUnityContainer container, LifetimeManager lifetimeManager, params InjectionMember[] injectionMembers)
+        {
+            injectionMembers =
+                injectionMembers.Union(new InjectionMember[] { new InterceptionBehavior<PolicyInjectionBehavior>(), new Interceptor<InterfaceInterceptor>() })
+                                .ToArray();
+            container.RegisterType<TType>(lifetimeManager, injectionMembers);
+
+            return container;
+        }
+
     }
 }
