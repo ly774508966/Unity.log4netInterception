@@ -54,7 +54,7 @@ namespace Unity.log4netInterception
             return
                 Task.Factory.StartNew(
                     () =>
-                    _log.Info(String.Format("{0} {1}.{2}({3})",
+                    _log.Debug(String.Format("{0} {1}.{2}({3})",
                                             isReturn ? String.Format("Returning {0} from", retval ?? "null") : "Calling",
                                             targetType, methodBase.Name, FormatArguments(parameterCollection)))
                     );
