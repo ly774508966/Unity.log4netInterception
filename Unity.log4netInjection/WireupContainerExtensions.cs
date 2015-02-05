@@ -71,19 +71,21 @@ namespace Unity.log4netInterception
 
 
 
-        public static IUnityContainer RegisterTypeWithLogging<TType>(this IUnityContainer container)
+        public static IUnityContainer RegisterTypeWithLoggingAndInterceptor<TType, TInterceptor>(this IUnityContainer container)
+            where TInterceptor : IInterceptor
         {
             container.RegisterType<TType>(
                 new InterceptionBehavior<PolicyInjectionBehavior>(),
-                new Interceptor<InterfaceInterceptor>());
+                new Interceptor<TInterceptor>());
 
             return container;
         }
 
-        public static IUnityContainer RegisterTypeWithLogging<TType>(this IUnityContainer container, LifetimeManager lifetimeManager, params InjectionMember[] injectionMembers)
+        public static IUnityContainer RegisterTypeWithLoggingAndInterceptor<TType, TInterceptor>(this IUnityContainer container, LifetimeManager lifetimeManager, params InjectionMember[] injectionMembers)
+            where TInterceptor : IInterceptor
         {
             injectionMembers =
-                injectionMembers.Union(new InjectionMember[] { new InterceptionBehavior<PolicyInjectionBehavior>(), new Interceptor<InterfaceInterceptor>() })
+                injectionMembers.Union(new InjectionMember[] { new InterceptionBehavior<PolicyInjectionBehavior>(), new Interceptor<TInterceptor>() })
                                 .ToArray();
             container.RegisterType<TType>(lifetimeManager, injectionMembers);
 
