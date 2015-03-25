@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Runtime.InteropServices;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.InterceptionExtension;
 
@@ -8,6 +10,13 @@ namespace Unity.log4netInterception
     {
         public static IUnityContainer Wireup(this IUnityContainer container, PointcutConfiguration config)
         {
+            if (config == null)
+            {
+                config = PointcutConfiguration.UseDefaultAttributes();
+            }
+
+            container.RegisterInstance(config);
+
             container = container.AddNewExtension<Interception>();
 
             PolicyDefinition policyDef = container.Configure<Interception>()
@@ -22,6 +31,7 @@ namespace Unity.log4netInterception
                                                          new InjectionConstructor());
 
             container.RegisterType<Log4NetCallHandler>(new PerResolveLifetimeManager());
+            container.RegisterType<ICallHandler, Log4NetCallHandler>("LoggingCallHandler", new PerResolveLifetimeManager());
             return container;
         }
 
@@ -69,8 +79,6 @@ namespace Unity.log4netInterception
             return container;
         }
 
-
-
         public static IUnityContainer RegisterTypeWithLoggingAndInterceptor<TType, TInterceptor>(this IUnityContainer container)
             where TInterceptor : IInterceptor
         {
@@ -88,6 +96,41 @@ namespace Unity.log4netInterception
                 injectionMembers.Union(new InjectionMember[] { new InterceptionBehavior<PolicyInjectionBehavior>(), new Interceptor<TInterceptor>() })
                                 .ToArray();
             container.RegisterType<TType>(lifetimeManager, injectionMembers);
+
+            return container;
+        }
+
+        /// <summary>
+        /// Creates a wrapper proxy arround the supplied instance and intercepts calls for logging.
+        /// </summary>
+        /// <typeparam name="TInterface"></typeparam>
+        /// <typeparam name="TType"></typeparam>
+        /// <param name="container"></param>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        public static IUnityContainer WrapAndRegisterInstanceWithLogging<TInterface, TType>(this IUnityContainer container,
+            TType instance)
+            where TType : class, TInterface
+            where TInterface : class
+        {
+            var pointcutConfig = container.Resolve<PointcutConfiguration>();
+            if (pointcutConfig == null)
+            {
+                throw new Exception(
+                    "WireUp() must be called on this unity container before registering types for logging");
+            }
+
+            var interceptor = new InterfaceInterceptor();
+
+            var request = new CurrentInterceptionRequest(interceptor, typeof(TInterface), typeof(TType));
+            
+            var policies = new InjectionPolicy[] { new RuleDrivenPolicy(pointcutConfig.MatchingRules.ToArray(), new string[] { "LoggingCallHandler" }) };
+
+            var behaviour = new PolicyInjectionBehavior(request, policies, container);
+
+            var instanceToRegister = Intercept.ThroughProxy(typeof(TInterface), instance, interceptor, new[] {behaviour});
+
+            container.RegisterInstance((TInterface)instanceToRegister);
 
             return container;
         }

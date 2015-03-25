@@ -80,6 +80,7 @@
     <Compile Include="DefaultAttributeLoggingTests.cs" />
     <Compile Include="DefaultCar.cs" />
     <Compile Include="ICar.cs" />
+    <Compile Include="InsanceLoggingTests.cs" />
     <Compile Include="LoggingTestsBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

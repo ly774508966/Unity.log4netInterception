@@ -6,6 +6,7 @@ using Microsoft.Practices.Unity.InterceptionExtension;
 
 namespace Unity.log4netInterception
 {
+
     public class PointcutConfiguration
     {
         private readonly IEnumerable<IMatchingRule> _matchingRules;
