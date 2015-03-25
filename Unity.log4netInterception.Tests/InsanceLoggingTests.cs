@@ -23,7 +23,7 @@ namespace Unity.lo4netInterception.Tests
             _container = new UnityContainer();
             _container = _container.Wireup(PointcutConfiguration.UseDefaultAttributes());
             var car = new DefaultCar();
-            _container.RegisterInstanceWithLogging<ICar, DefaultCar>(car);
+            _container.WrapAndRegisterInstanceWithLogging<ICar, DefaultCar>(car);
             _myAppender = new MemoryAppender();
 
             Logger root = ((Hierarchy)LogManager.GetRepository()).Root;
